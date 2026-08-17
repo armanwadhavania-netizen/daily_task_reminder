@@ -81,12 +81,11 @@ WSGI_APPLICATION = 'taskreminder.wsgi.application'
 
 DATABASES = {
     "default": dj_database_url.config(
-        default=os.environ.get(
-            "LOCAL_DATABASE_URL",
-            "postgresql://postgres:12345@localhost:5432/daily_task_reminder_db"
-        )
+        default=os.environ.get("LOCAL_DATABASE_URL")
     )
 }
+
+
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
