@@ -1,0 +1,137 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Task - Daily Task Reminder</title>
+
+    <link rel="stylesheet" href="{% static 'tasks/style.css' %}">
+
+</head>
+
+<body>
+
+    <!-- Header -->
+
+    <header class="navbar">
+
+        <div class="logo">
+            ⏰ Daily Task Reminder
+        </div>
+
+        <a href="{% url 'task_list' %}" class="back-btn">
+            ← Back to Tasks
+        </a>
+
+    </header>
+
+
+    <!-- Add Task -->
+
+    <main class="add-task-container">
+
+        <div class="add-task-card">
+
+            <div class="form-header">
+
+                <div class="form-icon">
+                    📝
+                </div>
+
+                <h1>Add New Task</h1>
+
+                <p>
+                    Create a task and set a reminder time.
+                </p>
+
+            </div>
+
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <div class="form-field">
+
+                    <label for="{{ form.title.id_for_label }}">
+                        Task Title
+                    </label>
+
+                    {{ form.title }}
+
+                </div>
+
+
+                <div class="form-field">
+
+                    <label for="{{ form.description.id_for_label }}">
+                        Description
+                    </label>
+
+                    {{ form.description }}
+
+                </div>
+
+
+                <div class="form-field">
+
+                    <label for="{{ form.email.id_for_label }}">
+                        Email Address
+                    </label>
+
+                    {{ form.email }}
+
+                </div>
+
+                <div class="date-time-row">
+
+                    <div class="form-field">
+
+                        <label for="{{ form.due_date.id_for_label }}">
+                            Due Date
+                        </label>
+
+                        {{ form.due_date }}
+
+                    </div>
+
+
+                    <div class="form-field">
+
+                        <label for="{{ form.due_time.id_for_label }}">
+                            Due Time
+                        </label>
+
+                        {{ form.due_time }}
+
+                    </div>
+
+                </div>
+
+
+                <button type="submit" class="save-task-btn">
+                    + Add Task
+                </button>
+
+            </form>
+
+        </div>
+
+    </main>
+
+
+    <footer>
+
+        Daily Task Reminder · Django + CRON
+
+    </footer>
+
+</body>
+
+</html>

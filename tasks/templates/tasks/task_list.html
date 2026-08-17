@@ -1,0 +1,169 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Daily Task Reminder</title>
+
+    <link rel="stylesheet"
+          href="{% static 'tasks/style.css' %}">
+
+</head>
+
+<body>
+
+    <header class="navbar">
+
+        <div class="logo">
+            ⏰ Daily Task Reminder
+        </div>
+
+        <a href="{% url 'add_task' %}" class="add-btn">
+            + Add Task
+        </a>
+
+    </header>
+
+
+    <main class="container">
+
+        <div class="page-heading">
+
+            <h1>My Tasks</h1>
+
+            <p>
+                Stay organized and never miss an important task.
+            </p>
+
+        </div>
+
+
+        <!-- Tasks -->
+
+        <section>
+
+            {% for task in tasks %}
+
+            <div class="task-card">
+
+                <div class="task-content">
+
+                    <h2>{{ task.title }}</h2>
+
+                    {% if task.description %}
+
+                    <p>
+                        {{ task.description }}
+                    </p>
+
+                    {% endif %}
+
+                    <div class="task-time">
+
+                        📅 {{ task.due_date }}
+
+                        &nbsp;&nbsp;
+
+                        ⏰ {{ task.due_time }}
+
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    {% if task.completed %}
+
+                    <span class="status completed">
+                        ✓ Completed
+                    </span>
+
+                    {% elif task.reminder_sent %}
+
+                    <span class="status reminder">
+                        🔔 Reminder Sent
+                    </span>
+
+                    {% else %}
+
+                    <span class="status pending">
+                        ● Pending
+                    </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <div class="empty">
+
+                <h2>No tasks yet</h2>
+
+                <p>
+                    Add your first task to get started.
+                </p>
+
+                <a href="{% url 'add_task' %}" class="add-btn">
+                    + Add Task
+                </a>
+
+            </div>
+
+            {% endfor %}
+
+        </section>
+
+
+        <!-- Reminders -->
+
+        <section class="reminders">
+
+            <h2>🔔 Reminders</h2>
+
+            {% for reminder in reminders %}
+
+            <div class="reminder-card">
+
+                <strong>
+                    {{ reminder.message }}
+                </strong>
+
+                <small>
+                    {{ reminder.created_at }}
+                </small>
+
+            </div>
+
+            {% empty %}
+
+            <p class="no-reminders">
+                No reminders yet.
+            </p>
+
+            {% endfor %}
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        Daily Task Reminder · Django + CRON
+
+    </footer>
+
+</body>
+
+</html>
