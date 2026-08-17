@@ -1,1 +1,1 @@
-web: gunicorn daily_task_reminder.wsgi
+web: gunicorn taskreminder.wsgi
