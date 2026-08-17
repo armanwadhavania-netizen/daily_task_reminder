@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -77,18 +78,15 @@ WSGI_APPLICATION = 'taskreminder.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+
 DATABASES = {
-    'default': {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "daily_task_reminder_db",
-        "USER": "postgres",
-        "PASSWORD": "12345",
-        "HOST": "localhost",
-        "PORT": "5432",
-    }
+    "default": dj_database_url.config(
+        default=os.environ.get(
+            "LOCAL_DATABASE_URL",
+            "postgresql://postgres:12345@localhost:5432/daily_task_reminder_db"
+        )
+    )
 }
-
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
