@@ -23,12 +23,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY",
+    "django-insecure-local-development-key"
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -81,7 +84,7 @@ WSGI_APPLICATION = 'taskreminder.wsgi.application'
 
 DATABASES = {
     "default": dj_database_url.config(
-        default=os.environ.get("LOCAL_DATABASE_URL")
+        default=os.environ.get("DATABASE_URL")
     )
 }
 
@@ -138,10 +141,11 @@ CRONJOBS = [
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
-EMAIL_HOST = os.environ.get("EMAIL_HOST")
-EMAIL_PORT = int(os.environ.get("EMAIL_PORT", 465))
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
-EMAIL_USE_SSL = True
+EMAIL_HOST = os.environ.get("MAIL_HOST")
+EMAIL_PORT = int(os.environ.get("MAIL_PORT", "465"))
 
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_HOST_USER = os.environ.get("MAIL_USERNAME")
+EMAIL_HOST_PASSWORD = os.environ.get("MAIL_PASSWORD")
+
+EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False
