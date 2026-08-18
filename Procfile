@@ -1,1 +1,1 @@
-web: gunicorn taskreminder.wsgi
+web: python manage.py collectstatic --noinput && gunicorn taskreminder.wsgi
