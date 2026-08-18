@@ -10,10 +10,14 @@ def check_due_tasks():
 
     now = timezone.localtime()
 
+    print(f"CRON RUNNING - Current time: {now}")
+
     tasks = Task.objects.filter(
         completed=False,
         reminder_sent=False
     )
+
+    print(f"Pending tasks found: {tasks.count()}")
 
     for task in tasks:
 
@@ -27,7 +31,15 @@ def check_due_tasks():
             timezone.get_current_timezone()
         )
 
+        print(
+            f"Checking task: {task.title} | "
+            f"Due: {task_datetime} | "
+            f"Now: {now}"
+        )
+
         if task_datetime <= now:
+
+            print(f"Task is due: {task.title}")
 
             subject = f"Task Reminder: {task.title}"
 
@@ -54,6 +66,6 @@ def check_due_tasks():
             task.reminder_sent = True
             task.save()
 
-            print(f"Email sent to {task.email}")
+            print(f"EMAIL SENT TO: {task.email}")
 
     print("CRON: Task check completed")
