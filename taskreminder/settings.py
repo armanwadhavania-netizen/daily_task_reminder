@@ -39,10 +39,12 @@ ALLOWED_HOSTS = os.environ.get(
     "127.0.0.1,localhost"
 ).split(",")
 
-CSRF_TRUSTED_ORIGINS = os.environ.get(
-    "CSRF_TRUSTED_ORIGINS",
-    ""
-).split(",")
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.environ.get("CSRF_TRUSTED_ORIGINS", "").split(",")
+    if origin.strip()
+]
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -53,7 +55,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tasks',
-    'django_crontab',
 ]
 
 MIDDLEWARE = [
@@ -90,10 +91,9 @@ WSGI_APPLICATION = 'taskreminder.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-
 DATABASES = {
     "default": dj_database_url.config(
-        default=os.environ.get("DATABASE_URL"),
+        default="postgresql://postgres:12345@localhost:5432/csv_db",
         conn_max_age=600,
         conn_health_checks=True,
     )
@@ -146,13 +146,6 @@ STORAGES = {
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-CRONJOBS = [
-    (
-        "* * * * *",
-        "tasks.tasks.check_due_tasks"
-    ),
-]
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
